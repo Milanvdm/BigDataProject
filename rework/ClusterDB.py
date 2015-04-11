@@ -1,7 +1,8 @@
 __author__ = 'Milan'
 
-class ClusterDB:
+class ClusterDB(object):
     def __init__(self):
+        self.id = 0
         self.clusters = []
 
     def addCluster(self, cluster):

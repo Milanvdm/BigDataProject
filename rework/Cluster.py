@@ -1,11 +1,9 @@
 __author__ = 'Milan'
 
-import numpy as numpy
-
-class Cluster:
+class Cluster(object):
         referenceVariance = [0, 0, 0]
-        distanceThreshold = 20
-        deviationMult = 2
+        distanceThreshold = 10
+        deviationMult = 10
 
         def __init__(self):
             self.N = 0
@@ -29,7 +27,7 @@ class Cluster:
         def getStandardDeviation(self):
             variance = self.getVariance()
 
-            normVariance = numpy.linalg.norm(variance)
+            normVariance = (variance[0]**2 + variance[1]**2 + variance[2]**2)**0.5
             deviation = normVariance**0.5
 
             return deviation
@@ -66,15 +64,15 @@ class Cluster:
             return (md[0] + md[1] + md[2])**0.5
 
         def checkDataPoint(self, dataPoint):
-            if self.N == 1:
+            if self.getVariance()[0] == 0 or self.getVariance()[1] == 0 or self.getVariance()[2] == 0:
                 if self.checkDataPointSpecial(dataPoint):
-                    self.addDataPoint(dataPoint)
+                    return True
 
             else:
                 md = self.calculateMd(dataPoint)
 
                 if md < self.deviationMult * self.getStandardDeviation():
-                    self.addDataPoint(dataPoint)
+                    return True
 
         def checkDataPointSpecial(self, dataPoint):
             newCluster = Cluster()
@@ -98,7 +96,9 @@ class Cluster:
 
 
         def belowVarianceThreshold(self, combinedVariance):
-            distance = numpy.linalg.norm(combinedVariance - self.referenceVariance)
+            normReferenceVariance = (self.referenceVariance[0]**2 + self.referenceVariance[1]**2 + self.referenceVariance[2]**2)**0.5
+            normCombinedVariance = (combinedVariance[0]**2 + combinedVariance[1]**2 + combinedVariance[2]**2)**0.5
+            distance = normCombinedVariance - normReferenceVariance
 
             if distance < self.distanceThreshold:
                 return True
@@ -107,7 +107,7 @@ class Cluster:
 
 
         def combineClusters(self, otherCluster):
-            self.N += 1
+            self.N += otherCluster.N
 
             self.SUM[0] += otherCluster.SUM[0]
             self.SUM[1] += otherCluster.SUM[1]
