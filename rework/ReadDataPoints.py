@@ -20,8 +20,7 @@ def readAllDataPoints():
         checkDataPoint(dataPoint)
 
         checkAllClustersForCombining()
-
-    printFoundClusters()
+        
 
 def checkDataPoint(dataPoint):
     for cluster in clusterDb.clusters:
