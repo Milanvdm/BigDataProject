@@ -1,14 +1,26 @@
 __author__ = 'Milan'
 
+import sys
 import json
 
 from DataPoint import DataPoint
 from ClusterDB import ClusterDB
 from Cluster import Cluster
 
-
-file = open("../dataset/test.json")
 clusterDb = ClusterDB()
+
+def readAllDataPoints():
+    # input comes from STDIN (standard input)
+    for line in sys.stdin:
+        # remove leading and trailing whitespace
+        line = line.strip()
+        # convert the str to json format
+        data_json = json.loads(line)
+        dataPoint = DataPoint(data_json["latitude"], data_json["longitude"],data_json["stars"])
+        # add the dict to the list
+        checkDataPoint(dataPoint)
+
+        checkAllClustersForCombining()
 
 
 def readAllDataPoints():
