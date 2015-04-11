@@ -3,9 +3,8 @@ __author__ = 'Milan'
 import sys
 import json
 
-from DataPoint import DataPoint
-from ClusterDB import ClusterDB
-from Cluster import Cluster
+from BigDataProject.bfr.ClusterDB import ClusterDB
+from BigDataProject.bfr.Cluster import Cluster
 
 clusterDb = ClusterDB()
 
