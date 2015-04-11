@@ -1,0 +1,23 @@
+Dataset: Yelp dataset
+
+Goal: Cluster restaurants (or some business) based on their location and rating. Afterwards, visualize the data.
+
+Idea: Use the BFR clustering method in combination with MapReduce.
+
+This will work in the same way as the counting itemsets work with MapReduce.
+Step1: divide the data and let each worker cluster their data.
+Step2: communicate the intermediate results to all other workers and recalculate based on these results.
+Step3: Combine the information
+Step4: visualize the data using for example Google map API.
+
+I think it is even possible to do this maybe in one step: Map is using the bfr and Reduce will just merge the different clusters. 
+If that is possible, I think it will be quite easy to implement.
+
+==================================================================
+
+Writing report: Rob (and Milan)
+Visualization: Milan and Rob
+Presentation: Milan and Rob
+Setting up Hadoop with Yelp data: ?
+Writing BFR: ?
+Writing MapReduce to work with BFR: ?
