@@ -31,7 +31,7 @@ def readAllDataPoints():
 
         checkDataPoint(dataPoint)
 
-        checkAllClustersForCombining()
+    checkAllClustersForCombining()
 
 
 def checkDataPoint(dataPoint):
