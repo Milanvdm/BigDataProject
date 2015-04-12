@@ -3,21 +3,23 @@ __author__ = 'Milan'
 import folium
 import pandas as pd
 
-import CreateDatafilesFromPoints as cdfp
+from CreateDatafilesFromPoints import CreateData
 
-cdfp.createData()
+createData = CreateData()
+createData.createData()
+createData.csvFile.close()
 
 allDatapoints = r'points.json'
 ratings = r'ratings.csv'
 
-ratings_data = pd.read_csv(ratings)
+ratings_data = pd.read_csv(ratings, skip_blank_lines=True)
 
 #Let Folium determine the scale
 map = folium.Map(location=[48, -102], zoom_start=3)
 map.geo_json(geo_path=allDatapoints, data=ratings_data,
-             columns=['Id', 'Rating'],
-             key_on='feature.id',
+             columns=['IdNumber', 'Rating'],
+             key_on='feature.idNumber',
              fill_color='YlGn', fill_opacity=0.7, line_opacity=0.2,
-             legend_name='Ratings [0-5]')
+             legend_name='Ratings')
 map.create_map(path='clusterMap.html')
 

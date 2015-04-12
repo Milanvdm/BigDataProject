@@ -4,75 +4,83 @@ import CreateDataPoints as cd
 import json
 import csv
 
-id = 0
+class CreateData:
 
-xThreshold = 0.1
-yThreshold = 0.1
+    def __init__(self):
+        self.id = 0
 
-csvFile = open('ratings.csv', 'w')
-writer = csv.writer(csvFile, delimiter=',')
-titels = ['Id', 'Rating']
-writer.writerows(titels)
+        self.xThreshold = 1
+        self.yThreshold = 1
 
-jsonFile = open('points.json', 'w')
+        self.csvFile = open('ratings.csv', 'wb')
+        self.writer = csv.writer(self.csvFile)
+        titels = ["IdNumber", "Rating"]
+        self.writer.writerow(titels)
 
-def createData():
-    centroid = [0, 0, 0]
-    variance = [0, 0, 0]
-    x, y, z = cd.makeDataPointsFromCluster(centroid, variance, 100)
+        self.jsonFile = open('points.json', 'wb')
 
-    startId = id
+    def createData(self):
+        centroid = [48, -102, 3]
+        variance = [5, 5, 2]
+        x, y, z = cd.makeDataPointsFromCluster(centroid, variance, 1000)
 
-    json = createJson(x, y)
-    createCsv(z, startId)
+        startId = self.id
 
-    json.dump(json, jsonFile)
+        jsonData = self.createJson(x, y)
+        self.createCsv(z, startId)
 
-def createCsv(z, startId):
+        json.dump(jsonData, self.jsonFile)
 
-    i = 0
-    while i < z.size[0]:
-        data = [startId, z[i]]
-        writer.writerows(data)
+    def createCsv(self, z, startId):
 
-        startId += 1
-        i += 1
+        i = 0
+        while i < z.size:
+            data = [startId, z[i]]
+            self.writer.writerow(data)
 
-def createJson(x, y):
-    features = makeFeatures(x, y)
+            startId += 1
+            i += 1
 
-    finalJson = {"type":"FeatureCollection","features":features}
+    def createJson(self, x, y):
+        jsonData = {}
+        jsonData["type"] = "FeatureCollection"
+        jsonData["features"] = []
 
-    return finalJson
+        self.makeFeatures(x, y, jsonData)
 
-def makeFeatures(x, y):
-    features = []
 
-    i = 0
-    while i < x.size[0]:
-        long = x[i]
-        lat = y[i]
+        return jsonData
 
-        feature = {"type":"Feature","id":id,"properties":{"name":"datapoint"},"geometry":{"type":"Polygon","coordinates":[makePolygon(long, lat)]}},
+    def makeFeatures(self, x, y, jsonData):
+        i = 0
+        while i < x.size:
+            long = x[i]
+            lat = y[i]
 
-        features.append(feature)
+            feature = {}
+            feature["geometry"] = {"type":"Polygon","coordinates":[self.makePolygon(long, lat)]}
+            feature["properties"] = {"name":"datapoint"}
+            feature["idNumber"] = self.id
+            feature["type"] = "Feature"
 
-        i += 1
-        id += 1
+            jsonData["features"].append(feature)
 
-    return features
+            i += 1
+            self.id += 1
 
-def makePolygon(x, y):
-    rectangle = []
+        return jsonData
 
-    upperLeft = [x - xThreshold, y + yThreshold]
-    upperRight = [x + xThreshold, y + yThreshold]
-    downLeft = [x - xThreshold, y - yThreshold]
-    downRight = [x + xThreshold, y - yThreshold]
+    def makePolygon(self, x, y):
+        rectangle = []
 
-    rectangle.append(upperLeft)
-    rectangle.append(upperRight)
-    rectangle.append(downLeft)
-    rectangle.append(downRight)
+        upperLeft = [x - self.xThreshold, y + self.yThreshold]
+        upperRight = [x + self.xThreshold, y + self.yThreshold]
+        downLeft = [x - self.xThreshold, y - self.yThreshold]
+        downRight = [x + self.xThreshold, y - self.yThreshold]
 
-    return rectangle
+        rectangle.append(upperLeft)
+        rectangle.append(upperRight)
+        rectangle.append(downLeft)
+        rectangle.append(downRight)
+
+        return rectangle
