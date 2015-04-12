@@ -12,7 +12,7 @@ def readAllClusters():
 
     for line in sys.stdin:
         try:
-		    data_json = json.loads(line)  	# convert the str to json format
+            data_json = json.loads(line)  	# convert the str to json format
 
             cluster = Cluster()
             cluster.N = data_json[0]
