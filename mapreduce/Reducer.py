@@ -21,9 +21,10 @@ def readAllClusters():
 
             clusterDb.addCluster(cluster)
 
-            checkAllClustersForCombining()
         except ValueError:
             continue
+			
+    checkAllClustersForCombining()
 
 def checkAllClustersForCombining():
     for cluster in clusterDb.clusters:
@@ -32,10 +33,10 @@ def checkAllClustersForCombining():
                 continue
             else:
                 if cluster.checkCombineClusters(otherCluster):
-                    print 'Combined cluster: ' + cluster.toString() + ' and ' + otherCluster.toString()
+                    #print 'Combined cluster: ' + cluster.toString() + ' and ' + otherCluster.toString()
                     cluster.combineClusters(otherCluster)
                     clusterDb.removeCluster(otherCluster)
-                    print 'Combined cluster to: ' + cluster.toString()
+                    #print 'Combined cluster to: ' + cluster.toString()
 
 def printFoundClusters():
     for cluster in clusterDb.clusters:

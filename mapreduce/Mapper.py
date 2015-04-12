@@ -8,6 +8,7 @@ from BigDataProject.bfr.ClusterDB import ClusterDB
 from BigDataProject.bfr.Cluster import Cluster
 
 clusterDb = ClusterDB()
+ratingsMult = 10
 
 def readAllDataPoints():
     # input comes from STDIN (standard input)
@@ -16,22 +17,22 @@ def readAllDataPoints():
         line = line.strip()
         # convert the str to json format
         data_json = json.loads(line)
-        dataPoint = DataPoint(data_json["latitude"], data_json["longitude"],data_json["stars"])
+        dataPoint = DataPoint(data_json["latitude"], data_json["longitude"],data_json["stars"]*ratingsMult)
         # add the dict to the list
         checkDataPoint(dataPoint)
 
-        checkAllClustersForCombining()
-
-
-def readAllDataPoints():
-    for line in file:
-        data_json = json.loads(line)  	# convert the str to json format
-
-        dataPoint = DataPoint(data_json["latitude"], data_json["longitude"],data_json["stars"])
-
-        checkDataPoint(dataPoint)
-
     checkAllClustersForCombining()
+
+
+#def readAllDataPoints():
+#    for line in file:
+#        data_json = json.loads(line)  	# convert the str to json format
+#
+#        dataPoint = DataPoint(data_json["latitude"], data_json["longitude"],data_json["stars"])
+#
+#        checkDataPoint(dataPoint)
+#
+#    checkAllClustersForCombining()
 
 
 def checkDataPoint(dataPoint):
