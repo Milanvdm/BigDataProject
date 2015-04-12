@@ -12,18 +12,18 @@ def readAllClusters():
 
     for line in sys.stdin:
         try:
-			data_json = json.loads(line)  	# convert the str to json format
+		    data_json = json.loads(line)  	# convert the str to json format
 
-			cluster = Cluster()
-			cluster.N = data_json[0]
-			cluster.SUM = data_json[1]
-			cluster.SUMSQ = data_json[2]
+		    cluster = Cluster()
+		    cluster.N = data_json[0]
+		    cluster.SUM = data_json[1]
+		    cluster.SUMSQ = data_json[2]
 
-			clusterDb.addCluster(cluster)
+		    clusterDb.addCluster(cluster)
 
-			checkAllClustersForCombining()
-		except ValueError:
-			continue
+		    checkAllClustersForCombining()
+        except ValueError:
+            continue
 
 def checkAllClustersForCombining():
     for cluster in clusterDb.clusters:
