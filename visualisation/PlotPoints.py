@@ -9,10 +9,26 @@ import ast
 
 from BigDataProject.bfr.Cluster import Cluster
 
+
+#THIS CLASS HAS TO BE RAN TO MAKE THE VISUALUSATION
+#THE PRODUCE HTML FILE HAS TO BE OPENED IN YOUR BROWSER USING THE FOLLOWING URL:
+#http://localhost:63342/Project/BigDataProject/visualisation/clusterMap.html
+#BUT ADJUST TO YOUR PATH
+
+#AS INPUT IT NEEDS A FILE CALLED clusters.txt
+#YOU CAN FIND AN EXAMPLE ON HOW THAT HAS TO BE FORMATTED
+#ITS THE FILE ANTHONY PRODUCED WITHOUT THE STATISTICS
+
+#PARAMETERS:
+#amountOfPointsEachCluster
+
+
 #Let Folium determine the scale
 map = folium.Map(location=[48, -102], zoom_start=3)
 cmap = plt.get_cmap("afmhot")
 mixer = mpl.cm.ScalarMappable(mpl.colors.Normalize(vmin=0, vmax=5), cmap)
+
+amountOfPointsEachCluster = 10
 
 def makeMarkers(x, y, z):
 
@@ -38,7 +54,7 @@ def createMap():
             variance[2] = variance[2]/10
             amount = cluster.N
 
-            x, y, z = cd.makeDataPointsFromCluster(centroid, variance, 10)
+            x, y, z = cd.makeDataPointsFromCluster(centroid, variance, amountOfPointsEachCluster)
 
             makeMarkers(x, y, z)
 
